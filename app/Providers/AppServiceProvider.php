@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
+use Illuminate\Http\Request;
+
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -24,20 +27,17 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Request $request)
     {
-        /*
-        // Не работает в этом методе Illuminate\Support\Facades\Route::currentRouteName();
-        $currentRouteName = Route::currentRouteName();
-        $mas = explode("::", $currentRouteName);
-        if ($mas[0] == 'admin') {
+        $request = request();
+        $uriParts = explode('/', $request->path());
+
+        if ($uriParts[0] == 'admin') {
             $menu = (new Menu())->getAdminMenu();
         } else {
             $menu = (new Menu())->getMainMenu();
         }
-        */
 
-        $menu = (new Menu())->getMainMenu();
         View::share('menu', $menu);
     }
 }
