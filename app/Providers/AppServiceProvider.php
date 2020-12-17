@@ -30,9 +30,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(Request $request)
     {
         $request = request();
-        $uriParts = explode('/', $request->path());
-
-        if ($uriParts[0] == 'admin') {
+        // $uri = $request->path();
+        if ($request->is('admin/*')) {
             $menu = (new Menu())->getAdminMenu();
         } else {
             $menu = (new Menu())->getMainMenu();
