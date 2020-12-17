@@ -1,6 +1,10 @@
 /node_modules
 /public/hot
 /public/storage
+/resources/views/about.blade.php
+/resources/views/hello.blade.php
+/resources/views/news.blade.php
+/resources/views/welcome.blade.php
 /storage/*.key
 /vendor
 .env

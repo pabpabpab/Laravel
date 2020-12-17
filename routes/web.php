@@ -17,14 +17,14 @@ Route::get('/hello', function () {return view('hello', ['routeName' => 'hello'])
 
 
 Route::get('/', [NewsController::class, 'index'])
-    ->name('news-categories');
+    ->name('news::categories');
 
 Route::get('/news/{topic}', [NewsController::class, 'newsCategory'])
-    ->name('news-category')
+    ->name('news::category')
     ->where('topic', '[a-z]+');
 
 Route::get('/news/{topic}/{id}-{title}', [NewsController::class, 'newsCard'])
-    ->name('news-card')
+    ->name('news::card')
     ->where('topic', '[a-z]+')
     ->where('id', '[0-9]+');
 
