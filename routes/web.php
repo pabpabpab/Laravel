@@ -37,8 +37,14 @@ Route::group([
 ], function () {
     Route::get('/', 'NewsController@index')
         ->name('index');
+    Route::get('/auth', 'NewsController@auth')
+        ->name('auth');
+    Route::post('/login', 'NewsController@login')
+        ->name('login');
     Route::get('/create', 'NewsController@create')
         ->name('create');
+    Route::post('/add', 'NewsController@add')
+        ->name('add');
 });
 
 

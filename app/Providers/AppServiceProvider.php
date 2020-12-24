@@ -27,16 +27,14 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Request $request)
+    public function boot(Request $request, Menu $menu)
     {
-        $request = request();
-        // $uri = $request->path();
         if ($request->is('admin/*')) {
-            $menu = (new Menu())->getAdminMenu();
+            $menuSet = $menu->getAdminMenu();
         } else {
-            $menu = (new Menu())->getMainMenu();
+            $menuSet = $menu->getMainMenu();
         }
 
-        View::share('menu', $menu);
+        View::share('menu', $menuSet);
     }
 }

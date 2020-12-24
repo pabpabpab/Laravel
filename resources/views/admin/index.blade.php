@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 
 @section('title')
-    Admin authorization
+    Admin index
 @endsection
 
 
 @section('content')
-    <h1>Authorization</h1>
-    <form action='/admin/news/login' method='post'>
-        Login<br>
-        <input type='email' name='login'><br>
-        Password<br>
-        <input type='password' name='password'><br>
-        <input type='submit' name='submit'>
-    </form>
+    @if (old('login'))
+        <div>Welcome {{ old('login') }}! (old)</div>
+    @elseif (session('login'))
+        <div>Hi {{ session('login') }}! (session)</div>
+    @else
+        <div>Welcome to admin panel!</div>
+        <a href="{{ route('admin::news::auth') }}">Log in</a>
+    @endif
 @endsection

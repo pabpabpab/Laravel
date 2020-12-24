@@ -89,4 +89,8 @@ class News
 
         return null;
     }
+
+    public function getWholeNewsArray() {
+        return $this->news;
+    }
 }
