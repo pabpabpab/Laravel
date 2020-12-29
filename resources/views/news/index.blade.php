@@ -6,10 +6,10 @@
 
 @section('content')
     <h1>News categories</h1>
-    @foreach ($categories as $topic => $value)
+    @foreach ($categories as $category)
         @php
-          $url = route('news::category', ['topic' => $topic]);
+          $url = route('news::category', ['topic' => strtolower($category->name)]);
         @endphp
-        <div><a href='{{$url}}'>{{$value}}</a></div>
+        <div><a href='{{$url}}'>{{$category->name}}</a></div>
     @endforeach
 @endsection

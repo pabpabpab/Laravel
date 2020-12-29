@@ -47,4 +47,3 @@ Route::group([
         ->name('add');
 });
 
-

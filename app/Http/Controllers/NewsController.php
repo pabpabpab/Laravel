@@ -22,7 +22,7 @@ class NewsController extends Controller
     public function newsCard($topic, $id)
     {
        $oneNews = (new News())->getById($id);
-       return view('news.card', ['news' => $oneNews]);
+       return view('news.card', ['news' => $oneNews[0]]);
     }
 
 }
