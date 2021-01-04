@@ -26,8 +26,6 @@ class NewsController extends Controller
 
     public function login(Request $request)
     {
-        // flash the current input to the session
-        $request->flashOnly(['login']);
         // Store a piece of data in the session...
         session(['login' => $request->input('login')]);
         // redirect
