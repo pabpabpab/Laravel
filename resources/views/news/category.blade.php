@@ -5,12 +5,17 @@
 @endsection
 
 @section('content')
-    <h1>{{ucfirst($topic)}}</h1>
-    <div style='margin-bottom:50px;'>
+<h1>{{ucfirst($topic)}}</h1>
+<div style='margin-bottom:50px;'>
     @forelse ($list as $news)
         @php
           $kebabTitle = implode('-', explode(' ', strtolower($news->title)));
-          $url = route('news::card', ['topic' => $topic, 'id' => $news->id, 'title' => $kebabTitle]);
+          $url = route('news::card', [
+              'categoryId' => $categoryId,
+              'topic' => $topic,
+              'id' => $news->id,
+              'title' => $kebabTitle
+          ]);
         @endphp
         <div>
             <a href='{{$url}}'>{{$news->title}}</a>

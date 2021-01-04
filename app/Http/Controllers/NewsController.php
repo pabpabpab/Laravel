@@ -3,26 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
-use Illuminate\Http\Request;
+use App\Models\NewsCategory;
+
 
 class NewsController extends Controller
 {
     public function index()
     {
-        $categories = (new News())->getCategories();
+        $categories = (new NewsCategory())->getAll();
         return view('news.index', ['categories' => $categories]);
     }
 
-    public function newsCategory($topic)
+    public function newsCategory($categoryId, $topic)
     {
-        $list = (new News())->getByCategory($topic);
-        return view('news.category', ['topic' => $topic, 'list' => $list]);
+        $list = (new NewsCategory())->getNewsByCategoryId($categoryId);
+        return view('news.category', [
+            'categoryId' => $categoryId,
+            'topic' => $topic,
+            'list' => $list
+        ]);
     }
 
-    public function newsCard($topic, $id)
+    public function newsCard($categoryId, $topic, $id)
     {
        $oneNews = (new News())->getById($id);
-       return view('news.card', ['news' => $oneNews[0]]);
+       $category = $oneNews->category;
+       return view('news.card', [
+           'category' => $category,
+           'news' => $oneNews
+       ]);
     }
 
 }
