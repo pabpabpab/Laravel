@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminAuthorizationRequest;
+use App\Http\Requests\AdminNewsSaveRequest;
 use App\Models\News;
 use App\Models\NewsCategory;
 use Illuminate\Http\Request;
@@ -12,8 +14,8 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $perPage = 5;
-        $list = (new News())->getAllByPage($perPage);
+        $list = (new News())->getAll()
+            ->paginate(5);
         return view('admin.index', [
             'list' => $list
         ]);
@@ -24,7 +26,7 @@ class NewsController extends Controller
         return view('admin.auth');
     }
 
-    public function login(Request $request)
+    public function login(AdminAuthorizationRequest $request)
     {
         // flash the current input to the session
         $request->flashOnly(['login']);
@@ -53,24 +55,18 @@ class NewsController extends Controller
         ]);
     }
 
-    public function save(Request $request)
+    public function save(AdminNewsSaveRequest $request)
     {
         $input = $request->all();
-        if (isset($input['id'])) {
-            $editResult = (new News())->saveOldOne($input);
-            session(['editResult' => $editResult, 'editNewsId' => (int) $input['id']]);
-        } else {
-            $saveResult = (new News())->saveNewOne($input);
-            session(['saveResult' => $saveResult]);
-        }
-
-        return redirect()->route('admin::news::index');
+        $saveResult = (new News())->saveOne($input);
+        return redirect()->route('admin::news::index')
+            ->with('saveResult', $saveResult);
     }
 
     public function delete($id)
     {
         $deleteResult = (new News())->deleteOne($id);
-        session(['deleteResult' => $deleteResult, 'deleteNewsId' => (int) $id]);
-        return redirect()->route('admin::news::index');
+        return redirect()->route('admin::news::index')
+            ->with('deleteResult', $deleteResult);
     }
 }

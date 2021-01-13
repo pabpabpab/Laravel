@@ -16,42 +16,26 @@ Admin index
     @php
        $saveResult = session('saveResult');
        session()->forget('saveResult');
-       $editResult = session('editResult');
-       session()->forget('editResult');
-       $editNewsId = session('editNewsId');
-       session()->forget('editNewsId');
        $deleteResult = session('deleteResult');
        session()->forget('deleteResult');
-       $deleteNewsId = session('deleteNewsId');
-       session()->forget('deleteNewsId');
     @endphp
 
     @isset($saveResult)
         <div style="text-align:center;margin:30px 0;">
-        @if ($saveResult)
-            News added successfully!
-        @else
-            The news is not added!
-        @endif
-        </div>
-    @endisset
-
-    @isset($editResult)
-        <div style="text-align:center;margin:30px 0;">
-            @if ($editResult)
-                News {{ $editNewsId }} saved successfully!
+            @if (!$saveResult['oldId'])
+                @if ($saveResult['result']) News added successfully! @else The news is not added! @endif
             @else
-                The {{ $editNewsId }} news is not saved!
+                @if ($saveResult['result']) News {{ $saveResult['oldId'] }} saved successfully! @else The {{ $saveResult['oldId'] }} news is not saved! @endif
             @endif
         </div>
     @endisset
 
     @isset($deleteResult)
         <div style="text-align:center;margin:30px 0;">
-            @if ($deleteResult)
-                News {{ $deleteNewsId }} deleted successfully!
+            @if ($deleteResult['result'])
+                News {{ $deleteResult['oldId'] }} deleted successfully!
             @else
-                The {{ $deleteNewsId }} news is not deleted!
+                The {{ $deleteResult['oldId'] }} news is not deleted!
             @endif
         </div>
     @endisset
@@ -93,15 +77,5 @@ Admin index
         @endforelse
     </div>
 
-    {{-- Pagination --}}
-    <div style='margin:0 0 50px 0;'>
-        Pages:
-        @for ($i = 1; $i <= $list->lastPage(); $i++)
-            @if ($list->currentPage() === $i)
-                <span style="margin:0 10px;">{{ $i }}</span>
-            @else
-                <a href='{{ $list->url($i) }}' style="margin:0 10px;">{{ $i }}</a>
-            @endif
-        @endfor
-    </div>
+    {{ $list->links('pagination.admin_news') }}
 @endsection
