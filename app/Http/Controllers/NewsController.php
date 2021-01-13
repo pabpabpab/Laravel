@@ -33,5 +33,4 @@ class NewsController extends Controller
            'news' => $oneNews
        ]);
     }
-
 }
