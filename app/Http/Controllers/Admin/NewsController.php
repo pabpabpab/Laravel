@@ -8,6 +8,8 @@ use App\Http\Requests\AdminNewsSaveRequest;
 use App\Models\News;
 use App\Models\NewsCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 
 
 class NewsController extends Controller
@@ -21,37 +23,19 @@ class NewsController extends Controller
         ]);
     }
 
-    public function auth()
-    {
-        return view('admin.auth');
-    }
-
-    public function login(AdminAuthorizationRequest $request)
-    {
-        // flash the current input to the session
-        $request->flashOnly(['login']);
-        // Store a piece of data in the session...
-        session(['login' => $request->input('login')]);
-        // redirect
-        return redirect()->route('admin::news::index');
-    }
-
     public function create()
     {
-        $categories = (new NewsCategory())->getAll();
         return view('admin.create', [
-            'categories' => $categories,
+            'categories' => (new NewsCategory())->getAll(),
             'news' => new News()
         ]);
     }
 
     public function edit($id)
     {
-        $categories = (new NewsCategory())->getAll();
-        $oneNews = (new News())->getById($id);
         return view('admin.create', [
-            'categories' => $categories,
-            'news' => $oneNews
+            'categories' => (new NewsCategory())->getAll(),
+            'news' => (new News())->getById($id)
         ]);
     }
 

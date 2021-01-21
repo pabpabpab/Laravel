@@ -21,6 +21,8 @@ class News extends Model
         'content'
     ];
 
+    /*
+     * при валидации данных модели лучше здесь хранить правила
     public static function rules()
     {
         return [
@@ -30,7 +32,7 @@ class News extends Model
             'category_id' => 'required|exists:news_categories,id|integer'
         ];
     }
-
+   */
     public function getAll() {
         return static::query()
             ->select('news.id', 'category_id', 'title', 'about', 'news_categories.name as category_name')
@@ -55,12 +57,18 @@ class News extends Model
         }
         $model = $oldId ? $this->find($oldId) : new News();
         $model->fill($input);
-        return ['result' => $model->save(), 'oldId' => $oldId];
+        return [
+            'result' => $model->save(),
+            'oldId' => $oldId
+        ];
     }
 
     public function deleteOne($id) {
         $model = $this->find($id);
-        return ['result' => $model->delete(), 'oldId' => $id];
+        return [
+            'result' => $model->delete(),
+            'oldId' => $id
+        ];
     }
 
     public function category()

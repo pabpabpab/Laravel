@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use App\Models\NewsCategory;
+use Illuminate\Support\Facades\App;
 
 
 class NewsController extends Controller
