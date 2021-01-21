@@ -17,6 +17,10 @@ class UniqueUserEmail
      * @param  \Closure  $next
      * @return mixed
      */
+    
+    // При update профайла правило unique валидации не подойдет,
+    // у юзера может быть его старый емайл, 
+    // а если емайл указан новый, то проверить отсутствие такого в базе
     public function handle(Request $request, Closure $next)
     {
         $newemail = $request->post('email');
