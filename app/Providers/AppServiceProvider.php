@@ -2,7 +2,14 @@
 
 namespace App\Providers;
 
+
+use App\Models\Menu;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+
+
+use Illuminate\Http\Request;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,8 +28,17 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Request $request)
     {
-        //
+        if ($request->is('admin/*')) {
+            $isAdminMenu = true;
+        } else {
+            $isAdminMenu = false;
+        }
+
+        View::share([
+            'isAdminMenu' => $isAdminMenu,
+        ]);
+
     }
 }
