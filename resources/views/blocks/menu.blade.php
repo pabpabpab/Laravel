@@ -22,6 +22,13 @@
             {{__('topMenu.login.title')}}
         </a>
 
+        <a href="{{route(__('topMenu.loginVk.alias'), ['socialNetwork' => 'vkontakte'])}}" class="header_link">
+            {{__('topMenu.loginVk.title')}}
+        </a>
+        <a href="{{route(__('topMenu.loginYandex.alias'), ['socialNetwork' => 'yandex'])}}" class="header_link">
+             {{__('topMenu.loginYandex.title')}}
+        </a>
+
         <a href="{{route(__('topMenu.register.alias'))}}" class="header_link">
             {{__('topMenu.register.title')}}
         </a>

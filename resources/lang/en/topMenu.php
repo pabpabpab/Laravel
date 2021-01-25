@@ -37,12 +37,27 @@ return [
             'auth' => true,
             'role' => 'admin',
         ],
+        [
+            'title' => 'Xml',
+            'alias' => 'admin::parser::index',
+            'auth' => true,
+            'role' => 'admin',
+        ],
     ],
 
 
     'login' => [
         'title' => 'Log in',
         'alias' => 'login',
+    ],
+
+    'loginVk' => [
+        'title' => 'LoginVk',
+        'alias' => 'social::login',
+    ],
+    'loginYandex' => [
+        'title' => 'LoginYandex',
+        'alias' => 'social::login',
     ],
 
     'register' => [

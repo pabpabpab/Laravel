@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminProfileSaveRequest extends FormRequest
 {
@@ -25,4 +27,22 @@ class AdminProfileSaveRequest extends FormRequest
             'current_password' => '«'.__('profile.current_password').'»',
         ];
     }
+
+    /*
+     * ТАК МОЖНО РАСШИРИТЬ ВАЛИДАТОР
+    public function withValidator($validator) {
+        $validator->after(function ($validator) {
+            if(!$this->checkUserPassword()) {
+                $validator->errors()->add('current_password', 'неправильный пароль');
+            }
+        });
+    }
+
+    protected function checkUserPassword() {
+        return Hash::check(
+            $this->post('current_pasword'),
+            Auth::user()->getPassword()
+        );
+    }
+    */
 }

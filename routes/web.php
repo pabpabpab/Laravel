@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\NewsController;
 use \App\Http\Controllers\LocaleController;
+use \App\Http\Controllers\SocialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,11 +93,42 @@ Route::group([
 });
 
 
+// Аутентификация через соцсети
+Route::group([
+    'prefix' => 'social',
+    'as' => 'social::',
+], function () {
+    Route::get('/login/{socialNetwork}', [SocialController::class, 'login'])
+        ->name('login')
+        ->middleware('guest')
+        ->where('socialNetwork', '(vkontakte|yandex)');
+    Route::get('/{socialNetwork}/response', [SocialController::class, 'response'])
+        ->name('response')
+        ->where('socialNetwork', '(vkontakte|yandex)');
+});
+
+
+
+
 // Сменить локаль
 Route::get('/locale/{locale}', [LocaleController::class, 'setLocale'])
     ->name('locale::set')
     ->where('locale', __('locale.langRegExp'));
 // regexp из файла, где также список языков, чтоб было в одном месте
+
+
+
+// Xml-парсер
+Route::group([
+    'prefix' => '/admin/parser',
+    'as' => 'admin::parser::',
+    'namespace' => '\App\Http\Controllers\Admin',
+    'middleware' => ['auth', 'role:admin'],
+], function () {
+    Route::get('/', 'XmlParserController@index')
+        ->name('index');
+
+});
 
 
 

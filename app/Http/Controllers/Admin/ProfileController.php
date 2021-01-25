@@ -21,7 +21,7 @@ class ProfileController extends Controller
     {
         // работают посредники
         // App\Http\Middleware\CheckCurrentPassword
-        // App\Http\Middleware\UserUniqueEmail
+        // App\Http\Middleware\UniqueUserEmail
         $saveResult = Auth::user()->saveProfile($request->all());
         session(['username' => Auth::user()->getName()]);
         return redirect()->route('admin::users::myprofile')
