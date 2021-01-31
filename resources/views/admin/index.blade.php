@@ -6,19 +6,17 @@ Admin index
 
 @section('content')
 
-    @if (session('login'))
-        <div>Hi {{ session('login') }}!</div>
-    @else
-        <div>Welcome to admin panel!</div>
-        <a href="{{ route('admin::news::auth') }}">Log in</a>
-    @endif
-
     @php
        $saveResult = session('saveResult');
-       session()->forget('saveResult');
        $deleteResult = session('deleteResult');
-       session()->forget('deleteResult');
+       $saveXmlResult = session('saveXmlResult');
     @endphp
+
+    @isset($saveXmlResult)
+        <div style="text-align:center;margin:30px 0;">
+            {{$saveXmlResult}}
+        </div>
+    @endisset
 
     @isset($saveResult)
         <div style="text-align:center;margin:30px 0;">
@@ -68,8 +66,8 @@ Admin index
                   Category: <a href='{{$categoryUrl}}'>{{$news->category_name}}</a>
               </p>
               <p style='margin:0 0 30px 0;'>
-                  <a href='{{$editUrl}}'>Edit</a>
-                  <a href='{{$deleteUrl}}' style='margin:0 20px;'>Delete</a>
+                  @can('edit news') <a href='{{$editUrl}}'>Edit</a> @endcan
+                  @can('delete news') <a href='{{$deleteUrl}}' style='margin:0 20px;'>Delete</a> @endcan
               </p>
            </div>
         @empty

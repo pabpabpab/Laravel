@@ -8,10 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -49,7 +51,9 @@ class User extends Authenticatable
     ];
 
     // Регистрация
-    public function create($input) {
+    public function create($input)
+    {
+
         $role = 'user';
         if ($input['email'] === 'admin@'.explode('//', env('APP_URL'))[1]) {
             $role = 'admin';
@@ -64,13 +68,14 @@ class User extends Authenticatable
         ]);
 
         return [
-            $user->save(), // result
+            $user->save(),
             $user // user in order to make Auth::login();
         ];
     }
 
     // Редактировать профайл (сохранение)
-    public function saveProfile($input) {
+    public function saveProfile($input)
+    {
         $this->name = $input['name'];
         $this->email = $input['email'];
         if (isset($input['new_password'])) {
@@ -80,24 +85,34 @@ class User extends Authenticatable
     }
 
 
+    public static function getByEmail($email)
+    {
+       return User::where('email', $email)->first();
+    }
 
-    public function hasRole($role) {
+
+    public function _hasRole($role)
+    {
         return $this->role == $role;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
-    public static function isUniqueEmail($email) {
+    public static function isUniqueEmail($email)
+    {
         return static::query()
                 ->where('email', $email)
                 ->count() === 0;

@@ -68,9 +68,14 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'role' => CheckRole::class,
+       // 'role' => CheckRole::class, // мой прежний middlware
         'checkCurrentPassword' => CheckCurrentPassword::class,
         'uniqueEmail' => UniqueUserEmail::class,
         'makeLogin' => Login::class,
+
+        // Spatie, to protect routes or controllers using middleware
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 }

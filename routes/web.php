@@ -38,18 +38,24 @@ Route::group([
     'prefix' => '/admin/news',
     'as' => 'admin::news::',
     'namespace' => '\App\Http\Controllers\Admin',
-    'middleware' => ['auth', 'role:admin'],
+    // 'middleware' => ['auth', 'role:admin'], // мой прежний middleware
 ], function () {
     Route::get('/', 'NewsController@index')
-        ->name('index');
+        ->name('index')
+        // (кажется эти middleware работают до Gate::before в AuthServiceProvider)
+        ->middleware('role:admin|super-admin'); // spatie
     Route::get('/create', 'NewsController@create')
-        ->name('create');
+        ->name('create')
+        ->middleware('permission:create news'); // spatie
     Route::get('/{id}-edit', 'NewsController@edit')
-        ->name('edit');
+        ->name('edit')
+        ->middleware('permission:edit news'); // spatie
     Route::post('/save', 'NewsController@save')
-        ->name('save');
+        ->name('save')
+        ->middleware('permission:create news|edit news'); // spatie
     Route::get('/{id}-delete', 'NewsController@delete')
-        ->name('delete');
+        ->name('delete')
+        ->middleware('permission:delete news'); // spatie
 });
 
 
@@ -123,11 +129,11 @@ Route::group([
     'prefix' => '/admin/parser',
     'as' => 'admin::parser::',
     'namespace' => '\App\Http\Controllers\Admin',
-    'middleware' => ['auth', 'role:admin'],
+    // 'middleware' => ['auth', 'role:admin'], // мой прежний middleware
 ], function () {
     Route::get('/', 'XmlParserController@index')
-        ->name('index');
-
+        ->name('index')
+        ->middleware('permission:load xml news'); // spatie
 });
 
 
