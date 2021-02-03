@@ -42,6 +42,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'parser_logs' => [
+            // хранятся локально
+            'driver' => 'local',
+            // корень пространства, создастся папка logs/ в папке storage/app
+            'root' => storage_path('app/logs'),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

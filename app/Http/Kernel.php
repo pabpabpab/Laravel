@@ -2,6 +2,11 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckCurrentPassword;
+use App\Http\Middleware\CheckRole;
+use App\Http\Middleware\GetLocale;
+use App\Http\Middleware\Login;
+use App\Http\Middleware\UniqueUserEmail;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -37,6 +42,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            GetLocale::class,
         ],
 
         'api' => [
@@ -62,5 +68,14 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+       // 'role' => CheckRole::class, // мой прежний middlware
+        'checkCurrentPassword' => CheckCurrentPassword::class,
+        'uniqueEmail' => UniqueUserEmail::class,
+        'makeLogin' => Login::class,
+
+        // Spatie, to protect routes or controllers using middleware
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 }
